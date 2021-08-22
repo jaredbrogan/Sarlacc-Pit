@@ -6,7 +6,7 @@
 
 ---
 
-## OS
+## Networking
  - [auto_pcap.sh](networking/#auto_pcapsh)
 
 ---
