@@ -6,6 +6,11 @@
 
 ---
 
+## OS
+ - [auto_pcap.sh](networking/#auto_pcapsh)
+
+---
+
 ## HPE
  - [Encrypt_IT.sh](HPE/#encrypt_itsh)
  - [Reset iLO Password](HPE/#reset-ilo-password)
