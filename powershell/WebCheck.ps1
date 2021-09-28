@@ -39,8 +39,8 @@ process {
     $PSDefaultParameterValues['Test-NetConnection:InformationLevel'] = 'Quiet'
 
     # Variable cleanup and pre-validation
-	$URL = $URL.ToLower()
-	$URL = $URL -replace "http.*://" -replace "http.*://"
+    $URL = $URL.ToLower()
+    $URL = $URL -replace "http.*://" -replace "http.*://"
     $URL = $URL -replace ":.*" -replace ".*:"
 
     $UserDesktop = [Environment]::GetFolderPath("Desktop")
@@ -49,19 +49,19 @@ process {
     $checkURL = Test-NetConnection $URL -Port $Port -ErrorAction Ignore
 
     Write-Host -NoNewLine "Checking ${URL} on port $Port... "
-	if ( $Port -eq 443 ) {
-        if ( $checkURL -eq "True" ) {
-		    Invoke-WebRequest -Uri "https://${URL}" -TimeoutSec 5 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Content | Out-File -FilePath "${LogPath}\${URL}_${Port}-content.txt"
+    if ( $Port -eq 443 ) {
+	    if ( $checkURL -eq "True" ) {
+	        Invoke-WebRequest -Uri "https://${URL}" -TimeoutSec 5 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Content | Out-File -FilePath "${LogPath}\${URL}_${Port}-content.txt"
 	    }
-        else {
-            Write-Host "ERROR!"
-            Write-Host "`tUnable to establish a reliable connection to the specified URL. Exiting...`n"
-            exit
-        }
+	    else {
+	        Write-Host "ERROR!"
+	        Write-Host "`tUnable to establish a reliable connection to the specified URL. Exiting...`n"
+	        exit
+	    }
     }
-	else {
-		Invoke-WebRequest -Uri "http://${URL}:${Port}" -TimeoutSec 5 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Content | Out-File -FilePath "${LogPath}\${URL}_${Port}-content.txt"
-	}
+    else {
+        Invoke-WebRequest -Uri "http://${URL}:${Port}" -TimeoutSec 5 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Content | Out-File -FilePath "${LogPath}\${URL}_${Port}-content.txt"
+    }
     Get-FileHash "${LogPath}\${URL}_${Port}-content.txt" | Out-File "${LogPath}\${URL}_${Port}-checksum.txt"
     Write-Host "Complete!`n"
 
